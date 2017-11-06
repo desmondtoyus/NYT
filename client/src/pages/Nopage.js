@@ -11,9 +11,9 @@ class Nopage extends React.Component{
 
     render(){
         return(
-            <div>
+            <div className="container">
 
-<h1> Error 404</h1>
+<h1 className="text-center"> Error 404</h1>
                 </div>
         )
     }

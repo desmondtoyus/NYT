@@ -2,11 +2,10 @@ import React from 'react'
 import Ul from "../components/Ul";
 const Panel = (props)=>{
 let article = props.article;
-               
-    return(
+let found = props.found;   
 
-     
-        <div className="container">
+return props.found ?(        
+ (        <div className="container">
         <div className="main-container">
         <div className="row">
             <div className="col-lg-12">
@@ -22,7 +21,8 @@ let article = props.article;
                         <ul className="list-group">
                             <div>
                                 <li className="list-group-item">
-                                  <Ul article = {article}/>
+                                  <Ul article = {article}
+                                  found = {found} />
                                 </li>
                             </div>
                         </ul>
@@ -33,6 +33,7 @@ let article = props.article;
         </div>
         </div>
     )
+):( <h1> No Result..</h1>)
 }
 export default Panel;
 

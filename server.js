@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+//route is required from the route/api folder for use in API calls to the DB
 const routes = require("./routes");
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -18,7 +19,9 @@ mongoose.Promise = global.Promise;
 // Connect to the Mongo DB
 mongoose.connect(
   process.env.MONGODB_URI || "mongodb://heroku_z3wfgmtn:1eq8reut426sujiihnunc167t4@ds249325.mlab.com:49325/heroku_z3wfgmtn",
-
+  //local
+//mongodb://localhost/articlelist
+//production
   // MONGODB_URI: mongodb://heroku_z3wfgmtn:1eq8reut426sujiihnunc167t4@ds249325.mlab.com:49325/heroku_z3wfgmtn
   {
     useMongoClient: true

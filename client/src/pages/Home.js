@@ -12,28 +12,13 @@ import Panel from "../components/Panel";
 import List from "../components/List";
 class Home extends React.Component{
 
-// copied Start
-
-//copied End
-
-  // When the component mounts, load all books and save them to this.state.books
-//   componentDidMount() {
-//     this.loadArticles();
-//   }
-
   state= {
     topic:'',
     startYear:'',
     endYear:'',
-  
+    found:false,
   article:[]
-//   [{
-//         Name: 'Desmond',
-//         School:'Lautech'
-//     },{
-//         Name: 'Desmond',
-//         School:'Lautech'
-//     }]
+
  };
 
 handleAPISearch=(event)=>{
@@ -45,20 +30,30 @@ handleAPISearch=(event)=>{
     //declaring self to use this in the inner function
   
     API.runQuery(term, start, end).then(res =>{
-        this.setState({ article: res.docs, topic: "", startYear: "", endYear: "" })
-        console.log(this.state.article);
+      if (res.docs.length<1) {
+        this.setState({ found: false});
+      } else {
+        this.setState({ article: res.docs, topic: "", startYear: "", endYear: "", found: true })
+        
+      }
+        
     }
       )
 }
 
 }
 
-// setQuery: function(newQuery, newStart, newEnd) {
-//     helpers.runQuery(newQuery, newStart, newEnd).then(function(data) {
-//       this.setState({ results: { docs: data.docs } });
-//     }.bind(this));
-//   },
-  // Loads all books  and sets them to this.state.books
+handleSave = data=> {
+  // event.preventDefault();
+ 
+    API.saveArticle(data)
+    console.log(data)
+      // .then(res => this.loadBooks())
+      // .catch(err => console.log(err));
+
+};
+
+  // Loads all article and sets them to this.state.article
   loadArticles = () => {
     API.getArticles()
       .then(res =>
@@ -67,12 +62,7 @@ handleAPISearch=(event)=>{
       .catch(err => console.log(err));
   };
 
-  // Deletes a book from the database with a given id, then reloads books from the db
-  deleteArticle = id => {
-    API.deleteArticle(id)
-      .then(res => this.loadArticles())
-      .catch(err => console.log(err));
-  };
+ 
 
   // Handles updating component state when the user types into the input field
   handleInputChange = event => {
@@ -80,21 +70,6 @@ handleAPISearch=(event)=>{
     this.setState({
       [name]: value
     });
-  };
-
-  // When the form is submitted, use the API.saveBook method to save the book data
-  // Then reload books from the database
-  handleFormSubmit = event => {
-    event.preventDefault();
-    if (this.state.topic && this.state.startYear  && this.state.endYear) {
-      API.saveArticle({
-        topic: this.state.topic,
-        startYear: this.state.startYear,
-        endYear: this.state.endYear
-      })
-        .then(res => this.loadArticles())
-        .catch(err => console.log(err));
-    }
   };
 
     render(){
@@ -150,6 +125,7 @@ handleAPISearch=(event)=>{
                                         <FormBtn
                                         disabled={!(this.state.topic && this.state.startYear && this.state.endYear)}
                                         onClick={this.handleAPISearch}
+                                        className="btn btn-success"
                                       >
                                         Submit
                                       </FormBtn>
@@ -161,7 +137,9 @@ handleAPISearch=(event)=>{
                     </div>
                 </div>
                 <List />
-                 <Panel article = {this.state.article}/>
+                 <Panel article = {this.state.article}
+                 found = {this.state.found}
+             />
     </div>
    
         )

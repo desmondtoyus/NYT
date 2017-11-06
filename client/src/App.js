@@ -2,7 +2,9 @@ import React from "react";
 import {
   BrowserRouter as Router,
   Link,
-  Route
+  Route, 
+  Redirect,
+  Switch
 
 } from 'react-router-dom';
 
@@ -11,6 +13,7 @@ import Footer from "./components/Footer";
 import Jumbotron from "./components/Jumbotron";
 import Saved from "./pages/Saved";
 import Home from "./pages/Home";
+import Nopage from "./pages/Nopage";
 const App = () => {
 
 return (
@@ -21,8 +24,8 @@ return (
     <Jumbotron />
     <Route exact path ="/Saved" component={Saved} />
     <Route exact path ="/" component={Home} />
-    
-
+    {/* <Route path="*" exact={true} component={Nopage} /> */}
+    {/* <Redirect from="*" to="/Nopage"/> */}
     <Footer />
  
   </div>

@@ -1,11 +1,25 @@
 
 import React from 'react'
-const Ul = (props)=>{
+import API from "../utils/API";
+import { Input, TextArea, FormBtn } from "../components/Form";
+class Ul extends React.Component{
+
+    //Save to database
+    handleSave = index => {
+     
+          API.saveArticle({
+               topic: this.props.article[index].headline.main,
+               web_url:  this.props.article[index].web_url
+                   })
+            .then(res => alert('Article Saved'))
+          .catch(err => console.log(err));
+      
+      };
 
 
-return props.article.map(function(article, index) {
-
-
+render(){
+    return this.props.found ?(
+ this.props.article.map((article, index) =>{
     return(
 <div key={index}>
 <li className="list-group-item">
@@ -17,7 +31,12 @@ return props.article.map(function(article, index) {
          <a href={article.web_url}  rel="noopener noreferrer" target="_blank">
                <button class="btn btn-default ">View Article</button>
          </a>
-        <button className="btn btn-primary">Save</button>
+       
+         <FormBtn
+         onClick={() => this.handleSave(index)} 
+         className="btn btn-success"
+          >
+      SAVE </FormBtn>
     </span>
 </h3>
 <p>
@@ -25,7 +44,8 @@ return props.article.map(function(article, index) {
 </p>
     </li>    </div>
     )
-})
+})):( <h1> Nothing here </h1>)
+}
 }
 
 export default Ul;
